@@ -1,0 +1,101 @@
+{
+  "generated_at": "2026-06-04T00:00:00Z",
+  "project_root": ".",
+  "summary": {
+    "docs": 9,
+    "memory_files": 5,
+    "run_records": 1,
+    "risks": 2
+  },
+  "documents": [
+    {
+      "path": "README.md",
+      "title": "AI Product Delivery Workflow Skill",
+      "category": "root",
+      "headings": ["Repository Structure", "Quick Install Into Current Project", "Manual Installation", "Completion Evidence Expected From Agents"],
+      "excerpt": "Repository overview and installation guidance.",
+      "content": "See README.md in the repository."
+    },
+    {
+      "path": "SKILL.md",
+      "title": "AI Product Delivery Workflow",
+      "category": "skill",
+      "headings": ["Master Agent Operating Model", "Mode Selection", "Project Bootstrap Mode", "Recovery Takeover Mode", "Dynamic Agent Resource Planning"],
+      "excerpt": "Canonical v0.3 skill definition and workflow instructions.",
+      "content": "Canonical workflow file. Use repository file for full content."
+    },
+    {
+      "path": "TODO.md",
+      "title": "Controlled Evolution Roadmap",
+      "category": "planning",
+      "headings": ["Freeze Current v0.3", "Evaluate v0.3", "Score v0.3", "Only Then Consider v0.4"],
+      "excerpt": "Controlled roadmap for evaluating v0.3 before expanding to v0.4.",
+      "content": "See TODO.md in the repository."
+    },
+    {
+      "path": "references/legacy-project-assimilation.md",
+      "title": "Legacy Project Assimilation Mode",
+      "category": "reference",
+      "headings": ["Purpose", "Mandatory Safety Rules", "Legacy Assimilation Loop", "Required Outputs"],
+      "excerpt": "v0.3.1 legacy patch for old project takeover.",
+      "content": "Reference for safely bringing old projects back under workflow control."
+    },
+    {
+      "path": "references/lightweight-memory-dashboard.md",
+      "title": "Lightweight Memory And Project Dashboard",
+      "category": "reference",
+      "headings": ["Purpose", "Memory Layers", "Run Records", "Project Map", "Static Dashboard"],
+      "excerpt": "v0.3.2 patch for file-based memory and static dashboard.",
+      "content": "Reference for lightweight memory and project visualization."
+    },
+    {
+      "path": "docs/memory/project-memory.md",
+      "title": "Project Memory",
+      "category": "memory",
+      "headings": ["Product Goal", "Current Architecture", "Important Decisions", "Known Risks", "Active Roadmap"],
+      "excerpt": "Long-term project memory for the workflow repository.",
+      "content": "See docs/memory/project-memory.md."
+    },
+    {
+      "path": "docs/memory/decisions.md",
+      "title": "Decisions",
+      "category": "memory",
+      "headings": ["YYYY-MM-DD"],
+      "excerpt": "Decision memory for the project.",
+      "content": "See docs/memory/decisions.md."
+    },
+    {
+      "path": "docs/memory/mistakes.md",
+      "title": "Mistakes And Process Fixes",
+      "category": "memory",
+      "headings": ["Miss", "Root Cause", "Gate That Should Have Caught It", "New Rule", "New Test"],
+      "excerpt": "Known misses and process fixes.",
+      "content": "See docs/memory/mistakes.md."
+    },
+    {
+      "path": "docs/runs/example-run.json",
+      "title": "Example Run Record",
+      "category": "run",
+      "headings": ["mode", "status", "steps", "files_created", "risks"],
+      "excerpt": "Example run record for v0.3.2 memory/dashboard patch.",
+      "content": "See docs/runs/example-run.json."
+    }
+  ],
+  "files": [
+    {"path": "AGENTS.md", "category": "agent-entry"},
+    {"path": "CLAUDE.md", "category": "agent-entry"},
+    {"path": ".github/copilot-instructions.md", "category": "agent-entry"},
+    {"path": "scripts/install-skill.sh", "category": "script"},
+    {"path": "scripts/verify-install.sh", "category": "script"},
+    {"path": "scripts/generate-project-dashboard.py", "category": "script"}
+  ],
+  "risks": [
+    {"level": "P1", "source": "references/lightweight-memory-dashboard.md", "text": "Dashboard should not include secrets, tokens, private keys, or sensitive personal data."},
+    {"level": "P1", "source": "docs/runs/example-run.json", "text": "Local browser fetch may block JSON loading from file://; use a local static server if needed."}
+  ],
+  "next_actions": [
+    "Run python3 scripts/generate-project-dashboard.py after cloning.",
+    "Open docs/dashboard/index.html through a local static server.",
+    "Use dashboard after each meaningful agent run."
+  ]
+}
