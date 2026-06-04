@@ -1,0 +1,66 @@
+{
+  "id": "example-run-001",
+  "mode": "Lightweight Memory And Dashboard Mode",
+  "status": "completed",
+  "started_at": "2026-06-04T00:00:00Z",
+  "ended_at": "2026-06-04T00:10:00Z",
+  "master_agent_decision": "Use v0.3.2 runnable patch because the user requested lightweight memory, process visualization, and current target project documentation visibility before v0.4.",
+  "agents_used": [
+    "Master Agent",
+    "Documentation Agent",
+    "QA Lead Agent",
+    "Delivery Manager Agent"
+  ],
+  "steps": [
+    {
+      "name": "LEARN",
+      "status": "done",
+      "evidence": "Reviewed current v0.3/v0.3.1/v0.3.2 workflow requirements and target repository structure."
+    },
+    {
+      "name": "ANALYZE",
+      "status": "done",
+      "evidence": "Identified missing runnable dashboard files, memory files, run records, project map data, and generator script."
+    },
+    {
+      "name": "CREATE",
+      "status": "done",
+      "evidence": "Created memory files, dashboard data files, static HTML dashboard, and generator script."
+    },
+    {
+      "name": "EVALUATE",
+      "status": "partial",
+      "evidence": "Static files are present; local browser rendering should be verified after clone."
+    }
+  ],
+  "files_created": [
+    "docs/memory/project-memory.md",
+    "docs/memory/decisions.md",
+    "docs/memory/mistakes.md",
+    "docs/memory/patterns.md",
+    "docs/memory/user-preferences.md",
+    "docs/runs/example-run.json",
+    "docs/dashboard/project-map.json",
+    "docs/dashboard/runs.json",
+    "docs/dashboard/index.html",
+    "scripts/generate-project-dashboard.py"
+  ],
+  "files_modified": [],
+  "commands_run": [
+    "GitHub API create_file operations"
+  ],
+  "p0_blockers": [],
+  "p1_risks": [
+    "Local browser fetch may block JSON loading from file://; use a local static server if needed.",
+    "Dashboard data should be regenerated after each meaningful run."
+  ],
+  "p2_improvements": [
+    "Add markdown rendering instead of plain preformatted text.",
+    "Add richer risk extraction and run comparison later."
+  ],
+  "next_actions": [
+    "Clone the repository locally.",
+    "Run python3 scripts/generate-project-dashboard.py.",
+    "Open docs/dashboard/index.html directly or through python3 -m http.server."
+  ]
+}
