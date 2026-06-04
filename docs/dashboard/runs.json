@@ -1,0 +1,26 @@
+[
+  {
+    "id": "example-run-001",
+    "mode": "Lightweight Memory And Dashboard Mode",
+    "status": "completed",
+    "started_at": "2026-06-04T00:00:00Z",
+    "ended_at": "2026-06-04T00:10:00Z",
+    "summary": "Created v0.3.2 runnable memory and dashboard patch.",
+    "agents_used": [
+      "Master Agent",
+      "Documentation Agent",
+      "QA Lead Agent",
+      "Delivery Manager Agent"
+    ],
+    "files_created_count": 10,
+    "files_modified_count": 0,
+    "p0_count": 0,
+    "p1_count": 2,
+    "p2_count": 2,
+    "next_actions": [
+      "Clone repository locally",
+      "Run generator script",
+      "Open dashboard"
+    ]
+  }
+]
