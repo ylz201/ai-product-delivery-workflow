@@ -15,11 +15,12 @@ Every generated dashboard should answer these questions in a stable order:
 3. Can it be released now?
 4. What functions/modules exist?
 5. What is each function's status?
-6. What is blocked?
-7. Who or which agent owns the next action?
-8. What evidence proves the current status?
-9. What documents exist and what do they contain?
-10. What should happen next?
+6. What tasks are currently queued, doing, blocked, or done?
+7. What is blocked?
+8. Who or which agent owns the next action?
+9. What evidence proves the current status?
+10. What documents exist and what do they contain?
+11. What should happen next?
 
 ## Non-Negotiable Layout
 
@@ -29,14 +30,15 @@ Every dashboard must preserve this section order.
 1. Executive Summary
 2. Release Decision
 3. Feature / Module Inventory
-4. Workstream Status
-5. Risk Register
-6. Verification Evidence
-7. Documentation Map
-8. Recent Agent Runs
-9. Decisions Needed
-10. Next Actions
-11. Technical Details
+4. Task Kanban
+5. Workstream Status
+6. Risk Register
+7. Verification Evidence
+8. Documentation Map
+9. Recent Agent Runs
+10. Decisions Needed
+11. Next Actions
+12. Technical Details
 ```
 
 Do not replace this structure with a free-form visual page.
@@ -153,7 +155,86 @@ Rule:
 
 A feature inferred from code is not automatically business-confirmed or safe to change.
 
-## 4. Workstream Status
+## 4. Task Kanban
+
+Purpose: show the current execution board in a way that a project manager can control.
+
+The task kanban is mandatory for active development, recovery takeover, and legacy assimilation projects.
+
+Recommended columns:
+
+```text
+Backlog
+Ready
+Doing
+Blocked
+Needs Review / QA
+Done
+```
+
+Each task card must show:
+
+```text
+Task ID
+Title
+Feature / Module
+Priority
+Owner / Agent
+Status
+Blocker
+Due / Target
+Expected Output
+Evidence Link
+```
+
+Allowed task status values:
+
+```text
+BACKLOG
+READY
+DOING
+BLOCKED
+NEEDS_REVIEW
+NEEDS_QA
+WAITING_FOR_APPROVAL
+DONE
+CANCELLED
+```
+
+Allowed priority values:
+
+```text
+P0
+P1
+P2
+P3
+```
+
+Rules:
+
+- A task without owner/agent is not actionable.
+- A task without expected output is not well-defined.
+- A task in `DONE` must have evidence.
+- A blocked task must show blocker and required decision/action.
+- A P0 task must appear above lower-priority tasks.
+- Legacy refactor tasks must not move to `READY` until baseline verification exists.
+
+Example card:
+
+```text
+Task ID: T-012
+Title: Refresh browser QA for Passport Workbench
+Feature / Module: Passport workbench
+Priority: P0
+Owner / Agent: QA Lead Agent
+Status: NEEDS_QA
+Blocker: Stale screenshots after UI changes
+Due / Target: Today
+Expected Output: QA observation record and screenshot paths
+Evidence Link: docs/qa/passport-workbench-qa.md
+```
+
+## 5. Workstream Status
 
 Purpose: show active execution lanes.
 
@@ -183,7 +264,7 @@ DONE
 PAUSED
 ```
 
-## 5. Risk Register
+## 6. Risk Register
 
 Purpose: turn warnings into managed risks.
 
@@ -225,7 +306,7 @@ Rules:
 - Risks must have owner and mitigation.
 - A dashboard with open P0 risks must show `NOT_RELEASE_READY`.
 
-## 6. Verification Evidence
+## 7. Verification Evidence
 
 Purpose: show what proves the current state.
 
@@ -257,7 +338,7 @@ Database migration check
 Legacy baseline check
 ```
 
-## 7. Documentation Map
+## 8. Documentation Map
 
 Purpose: show the project documentation tree and content.
 
@@ -280,7 +361,7 @@ Rules:
 - Sensitive files should be listed as withheld, not embedded.
 - Documentation must be searchable.
 
-## 8. Recent Agent Runs
+## 9. Recent Agent Runs
 
 Purpose: show what the Master Agent and specialist agents actually did.
 
@@ -309,7 +390,7 @@ BLOCKED
 FAILED
 ```
 
-## 9. Decisions Needed
+## 10. Decisions Needed
 
 Purpose: separate agent work from human judgment.
 
@@ -336,7 +417,7 @@ Legacy behavior confirmation
 Data migration approval
 ```
 
-## 10. Next Actions
+## 11. Next Actions
 
 Purpose: make the project actionable.
 
@@ -357,7 +438,7 @@ Rules:
 - Avoid vague actions such as "continue improving".
 - Each action should produce a file, verification result, decision, or resolved risk.
 
-## 11. Technical Details
+## 12. Technical Details
 
 Purpose: keep technical context available without overwhelming the manager.
 
@@ -404,6 +485,7 @@ Recommended schema:
     "required_verification": []
   },
   "features": [],
+  "tasks": [],
   "workstreams": [],
   "risks": [],
   "verification": [],
@@ -415,12 +497,13 @@ Recommended schema:
 }
 ```
 
-Existing files such as `project-map.json`, `feature-map.json`, and `runs.json` may remain separate, but the dashboard UI must render them into this fixed layout.
+Existing files such as `project-map.json`, `feature-map.json`, `task-map.json`, and `runs.json` may remain separate, but the dashboard UI must render them into this fixed layout.
 
 ## Visual Rules
 
 - Top section must show release posture and blocker.
 - Feature inventory must be visible above technical boundaries.
+- Task Kanban must appear before technical details.
 - P0 risks must be red and appear before all other risks.
 - Next actions must show owner/agent and expected output.
 - Technical implementation details should not replace management status.
@@ -435,6 +518,7 @@ Do not generate a dashboard that only shows:
 - generic agent workflow steps without project state;
 - risks without owners;
 - workstreams without next actions;
+- tasks without owner, due/target, expected output, and evidence rule;
 - documents without content preview;
 - code modules without feature status;
 - release status without evidence.
@@ -448,8 +532,9 @@ A dashboard passes if a project manager can answer within one minute:
 3. Which functions exist?
 4. Which functions are verified?
 5. Which functions are locked or risky?
-6. What are the P0 blockers?
-7. What should be done next?
-8. Who or which agent owns the next action?
-9. Where is the evidence?
-10. Which documents define the project?
+6. What tasks are doing, blocked, and done?
+7. What are the P0 blockers?
+8. What should be done next?
+9. Who or which agent owns the next action?
+10. Where is the evidence?
+11. Which documents define the project?
