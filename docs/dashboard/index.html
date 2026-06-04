@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Product Delivery Workflow Dashboard</title>
+  <style>
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f7f7f8; color: #1f2937; }
+    header { padding: 24px 32px; background: #111827; color: white; }
+    header h1 { margin: 0 0 8px; font-size: 24px; }
+    header p { margin: 0; color: #d1d5db; }
+    main { display: grid; grid-template-columns: 320px 1fr; gap: 16px; padding: 16px; }
+    .panel { background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+    .sidebar { display: flex; flex-direction: column; gap: 16px; }
+    .content { display: flex; flex-direction: column; gap: 16px; }
+    h2 { margin: 0 0 12px; font-size: 18px; }
+    h3 { margin: 16px 0 8px; font-size: 15px; }
+    .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .metric { padding: 12px; background: #f3f4f6; border-radius: 10px; }
+    .metric strong { display: block; font-size: 22px; }
+    input { width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 8px; }
+    button { padding: 8px 10px; border: 1px solid #d1d5db; border-radius: 8px; background: #fff; cursor: pointer; }
+    button:hover { background: #f3f4f6; }
+    .doc-item, .run-item, .risk-item { padding: 10px; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 8px; background: #fff; }
+    .doc-item { cursor: pointer; }
+    .doc-item:hover { background: #f9fafb; }
+    .path { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; color: #4b5563; font-size: 12px; }
+    .tag { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; background: #e5e7eb; margin-left: 6px; }
+    .risk-P0 { border-left: 5px solid #dc2626; }
+    .risk-P1 { border-left: 5px solid #f59e0b; }
+    .risk-P2 { border-left: 5px solid #2563eb; }
+    pre { white-space: pre-wrap; background: #f9fafb; padding: 12px; border-radius: 8px; border: 1px solid #e5e7eb; max-height: 440px; overflow: auto; }
+    .small { color: #6b7280; font-size: 13px; }
+    @media (max-width: 900px) { main { grid-template-columns: 1fr; } .metric-grid { grid-template-columns: repeat(2, 1fr); } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>AI Product Delivery Workflow Dashboard</h1>
+    <p>v0.3.2 lightweight memory and process visualization</p>
+  </header>
+  <main>
+    <section class="sidebar">
+      <div class="panel">
+        <h2>Search</h2>
+        <input id="search" placeholder="Search docs, headings, risks..." />
+      </div>
+      <div class="panel">
+        <h2>Documentation Tree</h2>
+        <div id="doc-list"></div>
+      </div>
+    </section>
+    <section class="content">
+      <div class="panel">
+        <h2>Project Overview</h2>
+        <div class="metric-grid" id="metrics"></div>
+        <p class="small" id="generated"></p>
+      </div>
+      <div class="panel">
+        <h2>Document Viewer</h2>
+        <div id="doc-viewer" class="small">Select a document from the documentation tree.</div>
+      </div>
+      <div class="panel">
+        <h2>Recent Runs</h2>
+        <div id="runs"></div>
+      </div>
+      <div class="panel">
+        <h2>Risks</h2>
+        <div id="risks"></div>
+      </div>
+      <div class="panel">
+        <h2>Next Actions</h2>
+        <ul id="next-actions"></ul>
+      </div>
+    </section>
+  </main>
+  <script>
+    const fallbackProjectMap = {
+      generated_at: "embedded-fallback",
+      summary: { docs: 0, memory_files: 0, run_records: 0, risks: 0 },
+      documents: [], files: [], risks: [], next_actions: []
+    };
+    const fallbackRuns = [];
+
+    async function loadJson(path, fallback) {
+      try {
+        const response = await fetch(path);
+        if (!response.ok) throw new Error(response.statusText);
+        return await response.json();
+      } catch (error) {
+        console.warn(`Using fallback for ${path}:`, error.message);
+        return fallback;
+      }
+    }
+
+    function renderMetrics(summary) {
+      const metrics = document.getElementById('metrics');
+      const items = [
+        ['Docs', summary.docs || 0],
+        ['Memory', summary.memory_files || 0],
+        ['Runs', summary.run_records || 0],
+        ['Risks', summary.risks || 0]
+      ];
+      metrics.innerHTML = items.map(([label, value]) => `<div class="metric"><strong>${value}</strong>${label}</div>`).join('');
+    }
+
+    function renderDocs(projectMap, filter = '') {
+      const docs = (projectMap.documents || []).filter(doc => {
+        const haystack = `${doc.path} ${doc.title} ${doc.category} ${(doc.headings || []).join(' ')} ${doc.excerpt || ''}`.toLowerCase();
+        return haystack.includes(filter.toLowerCase());
+      });
+      const list = document.getElementById('doc-list');
+      list.innerHTML = docs.map((doc, index) => `
+        <div class="doc-item" data-index="${index}">
+          <strong>${doc.title || doc.path}</strong><span class="tag">${doc.category || 'doc'}</span>
+          <div class="path">${doc.path}</div>
+          <div class="small">${doc.excerpt || ''}</div>
+        </div>
+      `).join('') || '<p class="small">No documents found.</p>';
+
+      [...list.querySelectorAll('.doc-item')].forEach((el) => {
+        el.addEventListener('click', () => {
+          const doc = docs[Number(el.dataset.index)];
+          renderDocViewer(doc);
+        });
+      });
+    }
+
+    function renderDocViewer(doc) {
+      const viewer = document.getElementById('doc-viewer');
+      const headings = (doc.headings || []).map(h => `<li>${h}</li>`).join('');
+      viewer.innerHTML = `
+        <h3>${doc.title || doc.path}</h3>
+        <div class="path">${doc.path}</div>
+        <p>${doc.excerpt || ''}</p>
+        <h3>Headings</h3>
+        <ul>${headings}</ul>
+        <h3>Content</h3>
+        <pre>${escapeHtml(doc.content || 'No content embedded. Open the source file in the repository.')}</pre>
+      `;
+    }
+
+    function renderRuns(runs) {
+      const target = document.getElementById('runs');
+      target.innerHTML = (runs || []).map(run => `
+        <div class="run-item">
+          <strong>${run.id}</strong><span class="tag">${run.status}</span>
+          <div class="small">${run.mode}</div>
+          <p>${run.summary || run.master_agent_decision || ''}</p>
+          <div class="small">P0: ${run.p0_count || 0} · P1: ${run.p1_count || 0} · P2: ${run.p2_count || 0}</div>
+        </div>
+      `).join('') || '<p class="small">No runs found.</p>';
+    }
+
+    function renderRisks(projectMap) {
+      const target = document.getElementById('risks');
+      target.innerHTML = (projectMap.risks || []).map(risk => `
+        <div class="risk-item risk-${risk.level}">
+          <strong>${risk.level}</strong> ${risk.text}
+          <div class="path">${risk.source || ''}</div>
+        </div>
+      `).join('') || '<p class="small">No risks found.</p>';
+    }
+
+    function renderNextActions(projectMap) {
+      const target = document.getElementById('next-actions');
+      target.innerHTML = (projectMap.next_actions || []).map(action => `<li>${action}</li>`).join('') || '<li>No next actions.</li>';
+    }
+
+    function escapeHtml(text) {
+      return String(text).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+    }
+
+    async function init() {
+      const projectMap = await loadJson('project-map.json', fallbackProjectMap);
+      const runs = await loadJson('runs.json', fallbackRuns);
+      renderMetrics(projectMap.summary || {});
+      document.getElementById('generated').textContent = `Generated at: ${projectMap.generated_at || 'unknown'}`;
+      renderDocs(projectMap);
+      renderRuns(runs);
+      renderRisks(projectMap);
+      renderNextActions(projectMap);
+      document.getElementById('search').addEventListener('input', (event) => renderDocs(projectMap, event.target.value));
+    }
+
+    init();
+  </script>
+</body>
+</html>
