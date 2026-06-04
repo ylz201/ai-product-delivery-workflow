@@ -1,54 +1,126 @@
 ---
 name: ai-product-delivery-workflow
-description: Use this skill for PRD creation, vibe coding, LLM application delivery, AI agent workflow design, multi-agent review, half-built project takeover, UI/workflow redesign, repeated AI coding omissions, and delivery QA. It converts vague business intent into an execution-backed product delivery process with contract-first planning, mode selection, workspace checks, mandatory file execution when requested, LLM prompt/tool/context contracts, review gates, implementation slices, verification evidence, handoff, and retro learning.
+description: Use this skill for PRD creation, Project Bootstrap Mode, vibe coding, LLM application delivery, AI agent workflow design, master-agent orchestration, architecture review, multi-agent resource planning, half-built project takeover, UI/workflow redesign, repeated AI coding omissions, delivery QA, and continuous feedback iteration. It converts vague business intent into an execution-backed software project with a master agent, architecture agent, dynamic role allocation, contract-first planning, workspace checks, mandatory file execution, prompt/tool/context contracts, implementation slices, verification evidence, handoff, and retrospective learning.
 ---
 
 # AI Product Delivery Workflow
 
-Version: 0.2  
+Version: 0.3  
 Audience: Codex, Claude Code, VS Code Agent Skills, GitHub Copilot Agent, Cursor/Windsurf/Cline/Roo-style coding agents  
-Primary posture: senior LLM application expert, product engineer, delivery lead, and QA gatekeeper
+Primary posture: master delivery agent, chief architect, senior LLM application expert, product engineer, QA gatekeeper, and continuous-improvement lead
 
 ## 0. Core Principle
 
-Do not let product delivery become "beautiful planning without execution" or "fast coding without a verifiable product contract."
+Do not let product delivery become either of these failures:
 
-This skill exists to turn uncertain business needs, vague feature ideas, vibe coding requests, and half-built software into a controlled delivery loop:
+1. beautiful planning without execution;
+2. fast coding without a verifiable product, architecture, and acceptance contract.
 
-1. Understand the business outcome with minimal repeated questioning.
-2. Create a minimal product contract before product-facing implementation.
-3. Define LLM-specific prompt, tool, context, evaluation, and human-control contracts when LLM behavior is involved.
-4. Split work into small, reviewable, verifiable implementation slices.
-5. Use multi-role review to catch missed requirements, weak UX, unsafe trust boundaries, and incomplete engineering chains.
-6. Execute concrete file/code operations when the user asks for local artifacts or implementation.
-7. Verify completion with evidence, not UI presence or verbal confidence.
-8. Record process learning so similar misses become harder to repeat.
+This skill turns an uncertain business idea, vague feature request, vibe coding task, or half-built project into a controlled software delivery system.
 
-## 1. When To Trigger
+The system must be able to:
+
+1. learn the business and technical context;
+2. analyze the product, architecture, data, LLM, resource, and risk requirements;
+3. create the right project structure and artifacts;
+4. use the right agents, tools, and implementation slices;
+5. evaluate the result with evidence;
+6. optimize the project and process;
+7. feed lessons back into the workflow so the same class of miss becomes harder to repeat.
+
+The default behavior is proactive. The agent should infer reasonably from existing context, inspect available files, create artifacts, and ask only when a decision is business-critical, irreversible, or unsafe to infer.
+
+## 1. Master Agent Operating Model
+
+### 1.1 Master Agent Role
+
+The Master Agent is responsible for managing the whole project delivery system. It is not just a coder, planner, or reviewer.
+
+The Master Agent must:
+
+- identify the correct delivery mode;
+- define the project goal and success criteria;
+- decide which specialist agents are required;
+- assign work to specialist agents or simulate them sequentially;
+- require architecture review before irreversible technical choices;
+- maintain the product contract, architecture contract, implementation slices, risk register, and QA evidence;
+- prevent planning-only responses when execution is requested;
+- stop false completion claims;
+- manage feedback iteration and process learning.
+
+### 1.2 Master Agent Control Loop
+
+Use this loop for every non-trivial delivery task:
+
+```text
+LEARN -> ANALYZE -> DESIGN -> CREATE -> USE -> EVALUATE -> OPTIMIZE -> FEEDBACK
+```
+
+Definitions:
+
+- `LEARN`: inspect user request, repo, docs, code, logs, screenshots, tests, comparable patterns, and constraints.
+- `ANALYZE`: identify business goals, user jobs, risk, architecture needs, data needs, LLM behavior, and resource gaps.
+- `DESIGN`: create PRD, architecture design, prompt/tool/context contracts, data contracts, UI flow, and QA plan.
+- `CREATE`: create files, project structure, code, docs, scripts, tests, and first runnable slice.
+- `USE`: run the project, execute workflow, call tools, click UI, test API, or simulate operator flow.
+- `EVALUATE`: verify against acceptance criteria, tests, browser QA, logs, and quality gates.
+- `OPTIMIZE`: improve architecture, UX, prompt, tool use, performance, reliability, and developer workflow.
+- `FEEDBACK`: record misses, update process rules, add tests, update docs, and refine future agent behavior.
+
+### 1.3 Master Agent Decision Record
+
+For important decisions, create or update an Architecture Decision Record when appropriate:
+
+```text
+docs/adr/ADR-0001-title.md
+```
+
+ADR template:
+
+```markdown
+# ADR-0001: Title
+
+## Status
+Proposed | Accepted | Superseded
+
+## Context
+What problem or constraint led to this decision?
+
+## Decision
+What is the chosen approach?
+
+## Alternatives Considered
+What options were rejected and why?
+
+## Consequences
+What tradeoffs, risks, and follow-up tasks does this create?
+```
+
+## 2. When To Trigger
 
 Use this skill when the user mentions, asks for, or implicitly needs any of the following:
 
-- Product delivery workflow
-- PRD, product contract, technical design, implementation plan
-- Vibe coding that needs structure before coding
-- LLM application, agent workflow, prompt-tool-memory orchestration
-- Multi-agent development, role review, review gates
-- UI/workflow redesign after repeated misses
-- Half-built engineering takeover or recovery
-- Repeated AI coding omission, false completion, or incomplete feature delivery
-- Need to avoid repeated questioning while preserving delivery quality
-- Business workflow automation, internal tools, MVP, admin console, CRM, order system, OCR workflow, approval workflow, data backfill workflow
-- Postmortem or retrospective for why AI-assisted development missed requirements
+- product delivery workflow;
+- PRD, product contract, technical design, implementation plan;
+- project bootstrap, repo generation, MVP creation, app creation, or engineering scaffold;
+- vibe coding that needs structure before coding;
+- LLM application, agent workflow, prompt-tool-memory orchestration;
+- master agent, architect agent, multi-agent team, agent role planning;
+- UI/workflow redesign after repeated misses;
+- half-built engineering takeover or recovery;
+- repeated AI coding omission, false completion, or incomplete feature delivery;
+- business workflow automation, internal tools, MVP, admin console, CRM, order system, OCR workflow, approval workflow, data backfill workflow;
+- postmortem or retrospective for why AI-assisted development missed requirements.
 
-Do not use the full workflow for tiny one-command answers or isolated trivial edits unless the user explicitly asks to strengthen the process.
+Do not run the full workflow for tiny one-command answers or isolated trivial edits unless the user explicitly asks to strengthen the process.
 
-## 2. Mode Selection
+## 3. Mode Selection
 
-Before acting, classify the request into one mode. Do not run the full 12-step workflow when a smaller mode is sufficient.
+Before acting, classify the request into one mode. Do not run the full workflow when a smaller mode is sufficient.
 
-### 2.1 Fast Artifact Mode
+### 3.1 Fast Artifact Mode
 
-Use when the user asks to create or update a specific local artifact, such as:
+Use when the user asks to create or update a specific local artifact:
 
 - `SKILL.md`
 - `AGENTS.md`
@@ -70,7 +142,77 @@ Behavior:
 5. Report changed paths and verification evidence.
 6. Use reasonable assumptions unless a business-critical decision is missing.
 
-### 2.2 Light Product Mode
+### 3.2 Project Bootstrap Mode
+
+Use when the user gives a product idea, business workflow, internal tool, MVP, app, web system, agent system, or LLM application and expects a runnable project to be created.
+
+Trigger phrases include:
+
+- create a project;
+- build an MVP;
+- make this into an app;
+- generate the repo;
+- initialize the codebase;
+- turn this idea into a working system;
+- vibe code the whole project;
+- start from zero;
+- directly make it a project;
+- 帮我生成项目;
+- 帮我创建工程;
+- 直接做成项目.
+
+Required behavior:
+
+1. Inspect the workspace.
+2. Create a project folder unless the current folder is clearly the intended project root.
+3. Create minimal product, architecture, and delivery documents.
+4. Select a conservative default technical stack if the user has not specified one.
+5. Create the initial runnable application or workflow.
+6. Create environment variable examples, scripts, tests, and verification commands.
+7. Run install/build/test/start checks when tools are available.
+8. Report exact files changed, commands run, verification results, and remaining limitations.
+
+Project Bootstrap Mode must create, at minimum:
+
+```text
+README.md
+AGENTS.md or CLAUDE.md
+docs/PRD.md
+docs/TECH_DESIGN.md
+docs/ROADMAP.md
+docs/ACCEPTANCE.md
+docs/adr/
+.env.example
+src/ or app/
+tests/ or e2e/
+scripts/dev.sh
+scripts/verify.sh
+```
+
+If the stack uses package managers or frameworks, also create the relevant files:
+
+```text
+package.json
+pnpm-lock.yaml or package-lock.json, when generated
+pyproject.toml or requirements.txt
+Dockerfile, when deployment or containerization is requested
+docker-compose.yml, when local services are needed
+.github/workflows/ci.yml, when CI is requested or the repo is release-oriented
+```
+
+Definition of done for Project Bootstrap Mode:
+
+- project directory exists;
+- core docs exist;
+- code scaffold exists;
+- first user-visible or API workflow exists;
+- install command is documented;
+- dev command is documented;
+- verification command exists;
+- first acceptance check is defined;
+- remaining limitations are stated.
+
+### 3.3 Light Product Mode
 
 Use when the user asks for a small feature, one workflow, one page, or one integration.
 
@@ -83,18 +225,20 @@ Behavior:
 5. Implement the first verifiable slice when coding access exists.
 6. Verify the slice with tests, browser QA, command output, screenshots, or logs.
 
-### 2.3 Full Delivery Mode
+### 3.4 Full Delivery Mode
 
 Use for complex products, multi-page systems, customer-facing features, investor-facing demos, internal operational systems, or workflows with risk.
 
 Behavior:
 
-1. Run the full workflow gates.
-2. Use multi-role review.
-3. Require product, interaction, data, engineering, QA, and release contracts.
-4. Do not declare completion without acceptance evidence.
+1. Run full workflow gates.
+2. Use Master Agent orchestration.
+3. Use Chief Architect review.
+4. Use multi-role review.
+5. Require product, interaction, data, LLM, architecture, engineering, QA, and release contracts.
+6. Do not declare completion without acceptance evidence.
 
-### 2.4 Recovery Takeover Mode
+### 3.5 Recovery Takeover Mode
 
 Use for half-built, failing, unclear, or repeatedly corrected projects.
 
@@ -104,15 +248,198 @@ Behavior:
 2. Classify each capability by completion level.
 3. Identify false-complete items.
 4. Recover the implied product contract.
-5. Create a recovery slice plan before further feature expansion.
+5. Reconstruct the architecture and risk register.
+6. Create a recovery slice plan before further feature expansion.
 
-## 3. Execution Obligation
+## 4. Default Technical Stack Policy
+
+When the user does not specify a stack, choose conservative defaults based on project type. Do not over-engineer.
+
+### 4.1 Web MVP
+
+Default:
+
+```text
+Next.js + TypeScript
+simple file/local storage or SQLite for prototype
+PostgreSQL when production-like persistence is needed
+shadcn/ui for modern product UI
+Ant Design for dense back-office/operator UI
+```
+
+### 4.2 Internal Admin / Operational System
+
+Default:
+
+```text
+Next.js + TypeScript
+Ant Design or shadcn/ui depending on density
+SQLite first for local MVP
+PostgreSQL for real deployment
+role-based permission model if multiple operators exist
+```
+
+### 4.3 Backend API
+
+Default:
+
+```text
+FastAPI for Python-heavy, AI/LLM-heavy, data-heavy systems
+NestJS or Express for TypeScript-heavy systems
+OpenAPI contract when multiple clients or agents will call the API
+```
+
+### 4.4 LLM / Agent System
+
+Default:
+
+```text
+prompt contract
+tool contract
+context contract
+evaluation cases
+human-control boundary
+logs with sensitive data redaction
+manual approval for irreversible actions
+```
+
+### 4.5 Mobile App
+
+Default:
+
+```text
+React Native / Expo for fast cross-platform MVP
+native iOS/Android only when device-specific capability or performance requires it
+```
+
+### 4.6 Deployment
+
+Default:
+
+```text
+local runnable first
+Docker only when needed
+Vercel for Next.js web MVP
+Render/Railway/Fly.io for simple full-stack prototypes
+cloud provider-specific deployment only when requested
+```
+
+## 5. Dynamic Agent Resource Planning
+
+### 5.1 Resource Planner
+
+Before major delivery work, the Master Agent must determine which resources are needed.
+
+Resource planning output:
+
+```markdown
+## Agent Resource Plan
+Delivery mode:
+Required specialist agents:
+Optional specialist agents:
+Human decisions needed:
+Tools needed:
+Files/docs to create:
+Risks requiring review:
+```
+
+### 5.2 Core Agents
+
+Always consider these roles:
+
+- Master Agent: orchestrates end-to-end delivery and prevents false completion.
+- Chief Architect Agent: owns architecture, boundaries, scalability, maintainability, and technical risk.
+- Product Manager Agent: owns PRD, scope, user stories, priority, and acceptance criteria.
+- Business Analyst Agent: owns business objective, operator job, constraints, and success metrics.
+- Engineering Lead Agent: owns implementation plan, module boundaries, code quality, and developer workflow.
+- QA Lead Agent: owns acceptance tests, regression matrix, browser QA, and negative cases.
+- Security/Privacy Agent: owns data sensitivity, permissions, secrets, logs, and compliance constraints.
+- Delivery Manager Agent: owns milestones, slice plan, status, risk, handoff, and release readiness.
+- Retro/Learning Agent: owns feedback, process improvement, and reusable lessons.
+
+### 5.3 Specialist Agents
+
+Add these when the project requires them:
+
+- LLM Application Architect Agent: prompt, tool, context, evaluation, memory, and human-control design.
+- Data Architect Agent: schema, migrations, data lineage, analytics, and data quality.
+- API Contract Agent: OpenAPI, schema, idempotency, error model, versioning.
+- UX Designer Agent: first viewport, user journey, layout hierarchy, cognitive load.
+- Interaction Designer Agent: states, feedback, keyboard/mouse flow, failure recovery.
+- Frontend Engineer Agent: UI implementation, state, accessibility, performance.
+- Backend Engineer Agent: APIs, persistence, jobs, auth, reliability.
+- DevOps Agent: CI, deployment, environments, secrets, observability.
+- Test Automation Agent: unit, integration, e2e, fixture, and regression automation.
+- Documentation Agent: README, runbook, product docs, architecture docs, usage examples.
+- Domain Expert Agent: domain-specific rules, compliance, edge cases, data interpretation.
+
+### 5.4 Agent Assignment Rules
+
+Use independent specialist agents when tooling supports it. If not, simulate them sequentially and label each section clearly.
+
+Each agent must produce only:
+
+```markdown
+### Agent Name
+Top finding:
+Blocking risk:
+Required change:
+Acceptance check:
+```
+
+Maximum length per agent: five bullets.
+
+If no material finding exists, write:
+
+```text
+No blocking issue.
+```
+
+## 6. Chief Architect Agent
+
+The Chief Architect Agent is mandatory for Project Bootstrap Mode, Full Delivery Mode, Recovery Takeover Mode, and any system involving LLM tools, data persistence, permissions, integrations, or deployment.
+
+The Chief Architect Agent must define:
+
+```markdown
+## Architecture Contract
+Architecture style:
+System boundaries:
+Frontend modules:
+Backend modules:
+Data model:
+API contracts:
+LLM/tool boundaries:
+Auth and permission model:
+State management:
+Persistence strategy:
+Error model:
+Observability/logging:
+Performance constraints:
+Security/privacy constraints:
+Deployment model:
+Scalability assumptions:
+Known tradeoffs:
+ADR required:
+```
+
+Architecture gate:
+
+- no hidden cross-page or cross-service assumptions;
+- irreversible technical choices documented;
+- interfaces between modules defined;
+- data ownership clear;
+- sensitive data boundary clear;
+- failure behavior clear;
+- implementation can be sliced.
+
+## 7. Execution Obligation
 
 When the user asks to create, modify, generate, update, or fix local files, the agent must perform concrete file operations in the current workspace.
 
 Do not stop after planning, summarizing, or saying what will be done.
 
-### Required Execution Sequence
+Required execution sequence:
 
 1. Inspect the workspace:
    - `pwd`
@@ -131,16 +458,14 @@ Do not stop after planning, summarizing, or saying what will be done.
    - build
    - browser QA
 5. Final response must include:
-   - files created
-   - files modified
-   - commands run
-   - verification result
-   - blockers, if any
-   - next step or next slice
+   - files created;
+   - files modified;
+   - commands run;
+   - verification result;
+   - blockers, if any;
+   - next step or next slice.
 
-### Forbidden Completion Claims
-
-Do not claim completion with any of the following unless the file/code operation and verification actually occurred:
+Forbidden completion claims unless operations and verification actually occurred:
 
 - "I will create..."
 - "I can create..."
@@ -150,9 +475,7 @@ Do not claim completion with any of the following unless the file/code operation
 - "Implemented" without tests or manual verification
 - "Works" without explaining what was checked
 
-### If Execution Is Blocked
-
-If file writing, terminal execution, browser QA, dependency install, or repository access is blocked, report it explicitly:
+If execution is blocked, report:
 
 ```markdown
 ## Blocked
@@ -162,47 +485,70 @@ Exact command or path attempted:
 Safe next step:
 ```
 
-Never silently convert an execution request into a planning-only answer.
-
-## 4. Workspace And Permission Check
+## 8. Workspace And Permission Check
 
 Before implementation, verify:
 
-- Current working directory
-- Workspace root
-- Target file path
-- Whether the target path is inside the allowed workspace
-- Whether the target directory exists
-- Whether write access is available
-- Whether an approval prompt is required
-- Whether the tool is in Chat mode, Agent mode, or Full Access mode when this affects execution
-- Whether shell commands can run
-- Whether network access is needed and permitted
+- current working directory;
+- workspace root;
+- target file path;
+- whether target path is inside the allowed workspace;
+- whether target directory exists;
+- whether write access is available;
+- whether an approval prompt is required;
+- whether the tool is in Chat mode, Agent mode, or Full Access mode when this affects execution;
+- whether shell commands can run;
+- whether network access is needed and permitted.
 
-If the tool environment cannot perform the operation, tell the user exactly what is missing.
+If the environment cannot perform the operation, say exactly what is missing.
 
-## 5. Operating Rules
+## 9. Product Contract / PRD
 
-- Prefer action over repeated questioning.
-- Read the repo, docs, logs, UI, tests, screenshots, and existing tickets before asking.
-- Ask at most three short questions per gate, and only when the answer cannot be inferred safely.
-- Do not ask the user to repeat information already present in files, screenshots, logs, or prior context.
-- Product-facing implementation starts only after a minimal product contract exists, unless the user explicitly asks for a spike.
-- Native `alert`, `confirm`, and `prompt` are forbidden in high-frequency operational UI unless the interaction contract explicitly allows them.
-- Trust, auto-confirm, auto-submit, auto-backfill, and automation rules must be explicit, testable, and approved.
-- Every important field needs a source, processor, validation rule, destination, failure state, manual override rule, and acceptance case.
-- Every claim of completion needs verification evidence.
-- Do not mark a capability complete because a field, button, page, route, component, or API stub exists.
-- Do not update documentation for behavior that has not actually shipped.
-- Keep changes scoped to the active slice.
-- Prefer existing project patterns over introducing new abstractions.
-- Preserve operator speed, but never hide ambiguity or failure.
+Before product-facing implementation, create the smallest useful product contract.
 
-## 6. LLM Application Contract
+Template:
 
-For any LLM-powered feature, define the following before implementation or review.
+```markdown
+# PRD
 
-### 6.1 Prompt Contract
+## Outcome
+
+## Users / Operators
+
+## Job To Be Done
+
+## Scope
+
+## Non-Goals
+
+## User Stories
+
+## Acceptance Criteria
+
+## Failure States
+
+## Trust And Manual Review Rules
+
+## Data Requirements
+
+## LLM Behavior Requirements
+
+## Rollout
+
+## Rollback
+```
+
+Gate:
+
+- each capability has positive, negative, and exception cases;
+- the operator's primary task is clear;
+- business-critical decisions are visible.
+
+## 10. LLM Application Contract
+
+For any LLM-powered feature, define the following.
+
+### 10.1 Prompt Contract
 
 ```text
 Feature:
@@ -218,7 +564,7 @@ Bad output example:
 Format compliance checks:
 ```
 
-### 6.2 Tool Contract
+### 10.2 Tool Contract
 
 ```text
 Available tools:
@@ -232,7 +578,7 @@ Human confirmation required:
 Logging requirement:
 ```
 
-### 6.3 Context Contract
+### 10.3 Context Contract
 
 ```text
 Allowed context:
@@ -245,7 +591,7 @@ Sensitive data handling:
 Context truncation behavior:
 ```
 
-### 6.4 Evaluation Contract
+### 10.4 Evaluation Contract
 
 ```text
 Golden test cases:
@@ -259,7 +605,7 @@ Latency budget:
 Manual review cases:
 ```
 
-### 6.5 Human Control Contract
+### 10.5 Human Control Contract
 
 ```text
 Can be automated:
@@ -270,192 +616,9 @@ Rollback path:
 Escalation condition:
 ```
 
-## 7. Multi-Agent Roles
+## 11. Data And Capability Contract
 
-When subagent tooling is available, dispatch independent reviews by role. When subagent tooling is not available, simulate the roles sequentially.
-
-### 7.1 Role List
-
-- Business Analyst: business objective, operator pain, success metric, non-goals.
-- Product Manager: PRD, scope, priority, acceptance criteria, rollout strategy.
-- Domain Expert: domain-specific rules, edge cases, compliance constraints, data interpretation.
-- LLM Application Architect: prompt/tool/context/memory/evaluation/human-control contract.
-- Task-First UX Designer: first viewport, operator decision flow, density, hierarchy, error recovery.
-- Interaction Designer: button behavior, loading state, feedback, keyboard/mouse flow, no disruptive prompts.
-- Engineering Architect: architecture, module boundaries, API contracts, persistence, performance.
-- API/Data Contract Reviewer: schemas, field source matrix, idempotency, trust boundaries.
-- QA Lead: acceptance cases, browser tests, regression matrix, negative cases.
-- Security/Privacy Reviewer: sensitive data, logs, OCR/image handling, permissions.
-- Delivery Manager: slice plan, gate status, remaining risk, handoff.
-- Retro Reviewer: root cause, process fix, reusable learning.
-
-### 7.2 Role Review Output Rule
-
-Each role review must produce only:
-
-```markdown
-### Role Name
-Top finding:
-Blocking risk:
-Required change:
-Acceptance check:
-```
-
-Maximum length per role: five bullets.
-
-If a role has no material finding, write:
-
-```text
-No blocking issue.
-```
-
-Do not produce long role-play narratives.
-
-## 8. Workflow Steps
-
-### 8.1 Intake And Context Inventory
-
-Inputs:
-
-- User request
-- Current docs
-- Codebase
-- Logs
-- Screenshots
-- Existing tickets
-- Open plans
-- Tests
-- Deployment notes
-
-Outputs:
-
-```markdown
-## Context Inventory
-Problem statement:
-Current surfaces:
-Known decisions:
-Unresolved questions:
-Evidence reviewed:
-Assumptions:
-```
-
-Gate:
-
-- The agent can explain what exists today, what is missing, and where uncertainty remains.
-
-### 8.2 Business And Operator Job Review
-
-Inputs:
-
-- Current workflow
-- Users/operators
-- Business constraints
-- Failure cost
-- Frequency of operation
-- Data sensitivity
-
-Outputs:
-
-```markdown
-## Business And Operator Job
-Operator:
-Job-to-be-done:
-Primary first-viewport decision:
-Success metrics:
-Failure cost:
-Non-goals:
-```
-
-Gate:
-
-- The workflow is described from the operator's actual task, not from the current UI structure.
-
-### 8.3 Product Contract / PRD
-
-Inputs:
-
-- Business review
-- Current state
-- User constraints
-- Existing implementation
-- LLM constraints, when relevant
-
-Outputs:
-
-```markdown
-## Product Contract
-Scope:
-Personas:
-User stories:
-Acceptance criteria:
-Trust rules:
-Manual review rules:
-Data requirements:
-LLM behavior requirements:
-Rollout:
-Rollback:
-Out of scope:
-```
-
-Gate:
-
-- Each capability has clear positive, negative, and exception cases.
-
-### 8.4 Information Architecture And Page Responsibility
-
-Inputs:
-
-- PRD
-- Operator job
-- Current UI
-- Frequency and urgency of actions
-
-Outputs:
-
-```markdown
-## Information Architecture
-Page responsibility:
-Primary decision:
-First-viewport elements:
-Secondary elements:
-State model:
-Empty state:
-Loading state:
-Success state:
-Failure state:
-Partial-success state:
-```
-
-Gate:
-
-- The operator can make the primary decision without hunting across the page.
-
-### 8.5 Interaction Feedback Contract
-
-For each meaningful user action, produce:
-
-```text
-User action:
-Preconditions:
-Loading state:
-Success feedback:
-Failure feedback:
-Partial success feedback:
-Blocking modal allowed:
-Native alert/confirm/prompt allowed:
-Keyboard/mouse flow:
-Where operator continues:
-Browser QA assertions:
-```
-
-Gate:
-
-- No high-frequency action relies on native browser popups.
-- The operator always knows what happened and what to do next.
-
-### 8.6 Data And Capability Contract
-
-For each important field, produce a field source matrix:
+For each important field, create a field source matrix:
 
 ```text
 Field:
@@ -485,41 +648,9 @@ Completion levels:
 - `DOCS_UPDATED`
 - `RELEASE_READY`
 
-Gate:
+A field is not complete until it reaches the completion level required by the PRD.
 
-- A field is not complete until it reaches the completion level required by the PRD.
-
-### 8.7 Engineering Review
-
-Inputs:
-
-- Product contract
-- Interaction contract
-- Field matrix
-- LLM application contract
-- Current codebase
-
-Outputs:
-
-```markdown
-## Engineering Review
-Architecture approach:
-API contract:
-Data model changes:
-State management:
-Persistence:
-Idempotency:
-Security boundary:
-Performance risk:
-Slice boundaries:
-Test strategy:
-```
-
-Gate:
-
-- The plan can be implemented slice by slice without hidden cross-page assumptions.
-
-### 8.8 Implementation Slice Plan
+## 12. Implementation Slice Plan
 
 Each slice must include:
 
@@ -535,200 +666,154 @@ Rollback risk:
 Definition of done:
 ```
 
-Gate:
-
-- Each slice creates verifiable behavior, not just scaffolding.
-
-### 8.9 Implementation
-
 Rules:
 
-- Read existing code before editing.
-- Prefer local patterns and existing APIs.
-- Add tests proportional to risk.
-- Keep changes scoped to the slice.
-- Update docs only for shipped behavior.
-- Avoid speculative rewrites.
-- Do not introduce new dependencies unless justified.
-- Do not hide failures behind optimistic UI.
+- each slice creates verifiable behavior, not only scaffolding;
+- keep changes scoped;
+- update docs only for shipped behavior;
+- do not expand scope before the active slice is verified.
 
-Gate:
+## 13. QA And Acceptance
 
-- Tests and manual checks support the claimed behavior.
+Run the QA matrix appropriate to the project:
 
-### 8.10 QA And Acceptance
+- contract acceptance tests;
+- positive path tests;
+- negative tests;
+- exception tests;
+- browser click-through for core flows;
+- responsive checks when UI changes;
+- console/network error check when relevant;
+- data persistence check;
+- LLM schema/format check when relevant;
+- tool failure simulation when relevant;
+- regression checks for adjacent flows.
 
-Run the QA matrix:
+A human operator must be able to complete the workflow using visible UI and documented fallback states.
 
-- Contract acceptance tests
-- Positive path tests
-- Negative tests
-- Exception tests
-- Browser click-through for core flows
-- Responsive checks when UI changes
-- Console/network error check when relevant
-- Data persistence check
-- LLM schema/format check when relevant
-- Tool failure simulation when relevant
-- Regression checks for adjacent flows
-
-Gate:
-
-- A human operator can complete the workflow using visible UI and documented fallback states.
-
-### 8.11 Handoff And Release
-
-Outputs:
-
-```markdown
-## Handoff
-What changed:
-How to verify:
-Files changed:
-Commands run:
-Tests run:
-Browser QA:
-Known limitations:
-Remaining risks:
-Rollback note:
-Next slice:
-```
-
-Gate:
-
-- The user can inspect the result and decide whether to continue, release, or revise.
-
-### 8.12 Retro And Learning Update
-
-After misses or completion, record:
-
-```markdown
-## Retro
-What was missed:
-Which gate should have caught it:
-Why it passed:
-Process rule to update:
-Test or browser QA to add:
-Reusable learning:
-```
-
-Gate:
-
-- The same class of miss becomes harder to repeat.
-
-## 9. Half-Built Project Takeover
+## 14. Half-Built Project Takeover
 
 When taking over an incomplete project:
 
 1. Inventory current pages, routes, APIs, jobs, data models, docs, and tests.
-2. Run `pwd`, `ls -la`, and relevant project discovery commands.
+2. Run workspace discovery commands.
 3. Identify build system, package manager, test runner, and app start command.
 4. Classify each capability by completion level.
 5. Extract the implied product contract from existing implementation.
-6. Identify false-complete items:
-   - button exists but no handler
-   - field exists but no source
-   - API exists but not used
-   - OCR/parser exists but no confirmation flow
-   - state exists but is not persisted
-   - success toast exists but server failed
-   - page exists but operator cannot complete the workflow
-7. Re-run product, LLM, interaction, engineering, and QA reviews.
+6. Reconstruct the architecture contract.
+7. Identify false-complete items:
+   - button exists but no handler;
+   - field exists but no source;
+   - API exists but not used;
+   - OCR/parser exists but no confirmation flow;
+   - state exists but is not persisted;
+   - success toast exists but server failed;
+   - page exists but operator cannot complete the workflow.
 8. Create a recovery slice plan before further implementation.
 
-## 10. PRD And Vibe Coding Mode
+## 15. Review Gates With Severity
 
-For vague creative requests:
-
-- Start with a one-page product contract.
-- Choose conservative defaults from the business context.
-- Build a thin, real workflow before decorative expansion.
-- Replace "what do you want?" loops with concrete assumptions and reviewable options.
-- Preserve creative speed, but require acceptance evidence before saying done.
-- Prefer direct file/artifact creation when the user asks for a deliverable.
-- If the user says "直接做", proceed with Fast Artifact Mode or the first implementation slice.
-
-## 11. Review Gates With Severity
-
-Use severity levels to decide whether to proceed.
-
-### 11.1 P0 Blocker
+### 15.1 P0 Blocker
 
 Cannot proceed or cannot claim completion.
 
 Examples:
 
-- No target path for requested artifact.
-- No workspace or file write permission for a file-creation request.
-- No acceptance criteria for a critical workflow.
-- UI exists but data is not persisted.
-- High-frequency action has no success/failure feedback.
-- Sensitive data is logged unsafely.
-- LLM output has no schema or fallback rule.
-- Trust or auto-submit rule is ambiguous.
-- Tests fail for claimed behavior.
-- Browser workflow cannot complete.
+- no target path for requested artifact;
+- no workspace or file write permission for a file-creation request;
+- no acceptance criteria for a critical workflow;
+- no architecture contract for Project Bootstrap, Full Delivery, Recovery, or LLM-agent system;
+- UI exists but data is not persisted;
+- high-frequency action has no success/failure feedback;
+- sensitive data is logged unsafely;
+- LLM output has no schema or fallback rule;
+- trust or auto-submit rule is ambiguous;
+- tests fail for claimed behavior;
+- browser workflow cannot complete.
 
-### 11.2 P1 Major Risk
+### 15.2 P1 Major Risk
 
 Can proceed with explicit note, but must be fixed before release.
 
 Examples:
 
-- Edge cases not fully covered.
-- Partial browser QA missing.
-- Rollback path unclear.
-- Error message not operator-friendly.
-- Performance risk unmeasured.
-- Manual override unclear.
-- Regression tests incomplete.
+- edge cases not fully covered;
+- partial browser QA missing;
+- rollback path unclear;
+- error message not operator-friendly;
+- performance risk unmeasured;
+- manual override unclear;
+- regression tests incomplete.
 
-### 11.3 P2 Improvement
+### 15.3 P2 Improvement
 
 Can defer.
 
 Examples:
 
-- Visual polish.
-- Non-critical performance optimization.
-- Documentation enhancement.
-- Refactor not needed for current slice.
-- Nice-to-have analytics.
+- visual polish;
+- non-critical performance optimization;
+- documentation enhancement;
+- refactor not needed for current slice;
+- nice-to-have analytics.
 
-## 12. Required Gates Before Declaring Completion
+## 16. Continuous Learning And Feedback Iteration
 
-Do not claim completion unless the relevant gates pass:
+After every major delivery, failed attempt, repeated correction, or user complaint, run the learning loop.
 
-- Requirement gate: outcome, users, scope, and non-goals are clear.
-- Product gate: user stories and acceptance cases exist.
-- LLM gate: prompt/tool/context/evaluation/human-control contracts exist when LLM behavior is involved.
-- UX gate: first viewport supports the primary decision.
-- Interaction gate: every important action has feedback and recovery.
-- Data gate: source, processing, destination, and failure behavior are explicit.
-- Engineering gate: APIs, persistence, trust boundaries, and tests are designed.
-- Execution gate: requested files/code were actually created or modified.
-- QA gate: positive, negative, exception, and browser checks pass.
-- Release gate: handoff includes changed files, commands, verification, risks, and rollback.
-- Retro gate: misses become process updates.
+Learning record template:
 
-## 13. Anti-Patterns To Block
+```markdown
+# Learning Record
 
-Block or correct these patterns:
+## Trigger
+What happened?
 
-- Planning-only response to a file creation request.
-- Repeatedly asking broad questions instead of making reasonable assumptions.
-- Saying "implemented" after creating only UI scaffolding.
-- Declaring a field complete at `UI_PRESENT`.
-- Using native browser popups for frequent operational actions.
-- Hiding server failure behind success UI.
-- Letting LLM output free-form text where a schema is required.
-- Logging sensitive user, customer, OCR, document, or credential data without need.
-- Adding a new abstraction without reading existing patterns.
-- Updating docs for unshipped behavior.
-- Expanding scope before the current slice is verified.
-- Skipping retro after a repeated miss.
+## Miss
+What was missed or inefficient?
 
-## 14. Final Delivery Format
+## Root Cause
+Why did the process allow this?
+
+## Gate That Should Have Caught It
+Which gate failed?
+
+## Skill Update Needed
+What rule, template, agent, test, or mode must change?
+
+## New Test Or QA Check
+What check prevents recurrence?
+
+## Reusable Pattern
+What should be reused next time?
+```
+
+Store learning records when useful:
+
+```text
+docs/learning/YYYY-MM-DD-topic.md
+```
+
+Update this skill or local project instructions when a recurring miss is identified.
+
+## 17. Operating Rules
+
+- Prefer action over repeated questioning.
+- Read repo, docs, logs, UI, tests, screenshots, and existing tickets before asking.
+- Ask at most three short questions per gate, and only when the answer cannot be inferred safely.
+- Do not ask the user to repeat information already present in files, screenshots, logs, or prior context.
+- Product-facing implementation starts only after a minimal product and architecture contract exists, unless the user explicitly asks for a spike.
+- Native `alert`, `confirm`, and `prompt` are forbidden in high-frequency operational UI unless the interaction contract explicitly allows them.
+- Trust, auto-confirm, auto-submit, auto-backfill, and automation rules must be explicit, testable, and approved.
+- Every important field needs a source, processor, validation rule, destination, failure state, manual override rule, and acceptance case.
+- Every claim of completion needs verification evidence.
+- Do not mark a capability complete because a field, button, page, route, component, or API stub exists.
+- Do not update documentation for behavior that has not actually shipped.
+- Keep changes scoped to the active slice.
+- Prefer existing project patterns over introducing new abstractions.
+- Preserve operator speed, but never hide ambiguity or failure.
+
+## 18. Final Delivery Format
 
 Use this structure for final handoff.
 
@@ -736,6 +821,8 @@ Use this structure for final handoff.
 ## Delivery State
 Current phase:
 Mode used:
+Master Agent decision:
+Specialist agents used:
 Completed gates:
 Blocked gates:
 Confidence:
@@ -746,23 +833,12 @@ Modified:
 Deleted:
 Not changed:
 
-## Role Review Summary
-Business:
-Product:
-LLM application:
-UX:
-Interaction:
-Engineering:
-Data/API:
-QA:
-Security:
-Delivery:
-
-## Contract Updates
+## Architecture And Product Contracts
 PRD:
+Architecture contract:
+LLM contract:
 Field source matrix:
 Interaction feedback contract:
-LLM prompt/tool/context contract:
 Trust rules:
 Acceptance cases:
 
@@ -790,13 +866,13 @@ Rollback command or manual path:
 Data rollback note:
 Feature flag/config note:
 
-## Retro
+## Feedback Iteration
 Misses found:
 Process rule updated:
 Reusable learning:
 ```
 
-## 15. Minimal Output For Fast Artifact Mode
+## 19. Minimal Output For Fast Artifact Mode
 
 When the task is only to create or modify a file, use this shorter final format:
 
@@ -814,7 +890,7 @@ Notes:
 - remaining limitation or next step
 ```
 
-## 16. Installation Hints
+## 20. Installation Hints
 
 Recommended repository-level locations:
 
@@ -834,15 +910,18 @@ CLAUDE.md
 
 Keep this full workflow in `SKILL.md`. Keep entry files short and directive.
 
-## 17. Skill Maintenance Rule
+## 21. Skill Maintenance Rule
 
 After each real delivery failure or repeated correction, update this skill or its references with:
 
-- new anti-pattern
-- new gate
-- new test
-- new browser QA assertion
-- new file execution requirement
-- new LLM evaluation case
+- new mode;
+- new agent role;
+- new anti-pattern;
+- new gate;
+- new test;
+- new browser QA assertion;
+- new file execution requirement;
+- new LLM evaluation case;
+- new architecture decision pattern.
 
-The skill should become stricter where misses are repeated and lighter where execution is unnecessarily slowed.
+The skill should become stricter where misses repeat and lighter where execution is unnecessarily slowed.
